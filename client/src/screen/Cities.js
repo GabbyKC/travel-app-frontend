@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import Footer from '../components/Footer/Footer'
+import React, { Component } from 'react';
+import Footer from '../components/Footer/Footer';
 
 export default class Cities extends Component {
     render() {
