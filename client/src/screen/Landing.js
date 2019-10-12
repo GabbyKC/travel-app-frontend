@@ -7,7 +7,7 @@ import Header from "../components/Header/Header";
 
 const Landing = () => {
   return (
-    <div>
+    <div className='landing-bg'>
       <Header />
       <div className="flex-container">
         <img

@@ -1,0 +1,17 @@
+.city-list-container {
+    margin: 20px 0px 70px 0px;
+}
+
+.image-container {
+    height: 200px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.city-name {
+   align-self: center;
+   color: white;
+   font-size: 35px;
+   text-shadow: 2px 2px 4px #000000;
+}

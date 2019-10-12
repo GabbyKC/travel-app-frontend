@@ -1,3 +1,7 @@
+.landing-bg {
+    background-color: #9fe2f7;
+    height: 100vh;
+}
 .flex-container {
     display: flex;
     justify-content: center
@@ -13,7 +17,7 @@
 }
 
 .landing-arrow {
-    color: #b19809;
+    color: #d4b60a;
     font-size: 55px;
 }
 
