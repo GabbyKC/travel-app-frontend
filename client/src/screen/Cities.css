@@ -1,3 +1,24 @@
+.error-bg {
+    height: 100vh;
+    background-color: #9fe2f7;
+}
+
+.error-image-container {
+    text-align: center;
+}
+
+.error-image {
+    width: 300px;
+    padding-top: 20px;
+}
+
+.error-message {
+    padding: 20px;
+    align-self: center;
+    text-align: center;
+    font-size: 25px;
+}
+
 .city-list-container {
     margin: 20px 0px 70px 0px;
 }

@@ -28,10 +28,14 @@ class Cities extends Component {
             )
         }
 
-        // ToDO: better fall back for error
         if (cities === null) {
             return (
-                <div>oopps</div>
+                <div className='error-bg'>
+                    <div className='error-image-container'>
+                        <img className='error-image' src="https://media.giphy.com/media/iic43bLPYAAtbnb6hP/giphy.gif" alt="image broke yo" />
+                    </div>
+                    <div className='error-message'>Uh oh... there was an error. Please try again later.</div>
+                </div>
             )
         }
 
