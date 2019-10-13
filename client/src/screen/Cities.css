@@ -19,6 +19,21 @@
     font-size: 25px;
 }
 
+.input-container {
+    margin: 10px;
+    text-align: center;
+}
+
+.cities-input {
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #5f5d5d;
+}
+
+.cities-input:focus {
+    outline: none;
+}
+
 .city-list-container {
     margin: 20px 0px 70px 0px;
 }
