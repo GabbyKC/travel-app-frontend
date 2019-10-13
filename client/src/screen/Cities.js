@@ -59,7 +59,7 @@ class Cities extends Component {
                 <div className='input-container'>
                     <input className="cities-input"
                         type="text"
-                        placeholder="Search by City.."
+                        placeholder="Search by City..."
                         value={this.state.searchTerm}
                         onChange={this.updateSearchTerm}
                     />
