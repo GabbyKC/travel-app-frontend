@@ -20,15 +20,14 @@
 }
 
 .input-container {
-    padding: 10px;
     text-align: center;
-    background-color: #9fe2f7;
 }
 
 .cities-input {
+    width: 80%;
     font-size: 18px;
     text-align: center;
-    border: 1px solid #5f5d5d;
+    border: 1px solid #d4b60a;
 }
 
 .cities-input:focus {
@@ -39,9 +38,9 @@
     margin: 10px 0 70px 0;
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 768px) {
     .cities-wrapper {
-        width: 500px;
+        width: 600px;
         margin: auto;
     }
 }
@@ -51,6 +50,12 @@
     margin-bottom: 10px;
     display: flex;
     justify-content: center;
+}
+
+@media only screen and (min-width: 768px) {
+    .image-container {
+        height: 300px;
+    }
 }
 
 .city-name {

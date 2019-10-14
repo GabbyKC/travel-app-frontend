@@ -5,15 +5,15 @@
     width: 100%;
     font-size: 35px;
     justify-content: center; 
-    background-color: #9fe2f7;
+    background-color: white;
 }
 
 .footer-link {
-    color:#5f5d5d;
+    color: #d4b60a;
 }
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 768px) {
     .footer {
-        width: 500px;
+        width: 600px;
     }
 }

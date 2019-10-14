@@ -1,0 +1,6 @@
+.app-logo-header {
+    background-image: url("../../images/app_logo_small.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 50px;
+}

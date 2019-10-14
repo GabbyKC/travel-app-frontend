@@ -1,7 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import Footer from '../components/Footer/Footer';
+import AppLogo from "../components/AppLogo/AppLogo";
 import './Cities.css';
+
 
 import {getCities} from '../actions';
 
@@ -56,6 +58,7 @@ class Cities extends Component {
 
         return (
             <div className='cities-wrapper'>
+                <AppLogo />
                 <div className='input-container'>
                     <input className="cities-input"
                         type="text"
