@@ -55,7 +55,7 @@ class Cities extends Component {
         }
 
         return (
-            <div>
+            <div className='cities-wrapper'>
                 <div className='input-container'>
                     <input className="cities-input"
                         type="text"

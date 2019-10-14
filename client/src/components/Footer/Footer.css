@@ -3,11 +3,17 @@
     display: flex;
     bottom: 0;
     width: 100%;
-    font-size: 40px;    
+    font-size: 35px;
     justify-content: center; 
-    background-color: white;
+    background-color: #9fe2f7;
 }
 
 .footer-link {
     color:#5f5d5d;
+}
+
+@media only screen and (min-width: 1024px) {
+    .footer {
+        width: 500px;
+    }
 }
