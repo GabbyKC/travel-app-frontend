@@ -13,3 +13,19 @@ router.get("/all", (req, res) => {
 });
 
 module.exports = router;
+
+router.post('/', (req, res) => {
+    const newCity = new cityModel({
+        name: req.body.name,
+        country: req.body.country,
+        img: req.body.img,
+    });
+    if (cityModel.name !== newCity.name) {
+        newCity.save()
+            .then(city => {
+                res.send(city)
+            })
+            .catch(err => {
+                res.status(500).send("Server error")})
+    }
+});
