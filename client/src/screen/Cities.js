@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
+import {NavLink} from "react-router-dom";
 import Footer from '../components/Footer/Footer';
 import AppLogo from "../components/AppLogo/AppLogo";
 import './Cities.css';
@@ -49,7 +50,8 @@ class Cities extends Component {
             return (
                 <div className='error-bg'>
                     <div className='error-image-container'>
-                        <img className='error-image' src="https://media.giphy.com/media/iic43bLPYAAtbnb6hP/giphy.gif" alt="it be broke yo" />
+                        <img className='error-image' src="https://media.giphy.com/media/iic43bLPYAAtbnb6hP/giphy.gif"
+                             alt="it be broke yo"/>
                     </div>
                     <div className='error-message'>Uh oh... there was an error. Please try again later.</div>
                 </div>
@@ -58,26 +60,34 @@ class Cities extends Component {
 
         return (
             <div className='cities-wrapper'>
-                <AppLogo />
+                <AppLogo/>
                 <div className='input-container'>
                     <input className="cities-input"
-                        type="text"
-                        placeholder="Search by City..."
-                        value={this.state.searchTerm}
-                        onChange={this.updateSearchTerm}
+                           type="text"
+                           placeholder="Search by City..."
+                           value={this.state.searchTerm}
+                           onChange={this.updateSearchTerm}
                     />
                 </div>
                 <div className='city-list-container'>
-                    {cities.map(city => <div className='image-container' style={this.getStyles(city)} key={city._id}> <div className='city-name'>{city.name}</div></div>)}
+                    {
+                        cities.map(city =>
+                            <NavLink to={`/cities/${city._id}/itineraries`} key={city._id} >
+                                <div className='image-container' style={this.getStyles(city)}>
+                                    <div className='city-name'>{city.name}</div>
+                                </div>
+                            </NavLink>
+                        )
+                    }
                 </div>
-                <Footer />
+                <Footer/>
             </div>
         )
     }
 }
 
 const mapStateToProps = state => {
-    return { cities: state.cities.cities, isLoading: state.cities.isLoading };
+    return {cities: state.cities.cities, isLoading: state.cities.isLoading};
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -4,7 +4,7 @@ export function getCities() {
     return function (dispatch) {
         dispatch({ type: FETCH_CITIES_REQUEST });
 
-        return fetch('http://192.168.0.110:5000/cities/all')
+        return fetch('http://192.168.0.214:5000/cities/all')
             .then(response => response.json())
             .then(json => {
                 console.log('payload', json);
