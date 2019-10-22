@@ -5,7 +5,6 @@ import Footer from '../components/Footer/Footer';
 import AppLogo from "../components/AppLogo/AppLogo";
 import './Cities.css';
 
-
 import {getCities} from '../actions';
 
 class Cities extends Component {

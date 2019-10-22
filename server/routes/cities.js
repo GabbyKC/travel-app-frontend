@@ -53,9 +53,11 @@ router.get('/:name',
 router.get('/:cityId/itineraries',
     (req, res) => {
         let cityRequested = req.params.cityId;
-        itineraryModel.findOne({city: cityRequested})
-            .then(itinerary => {
-                res.send(itinerary)
+
+        cityModel.findById(cityRequested)
+            .populate('itineraries')
+            .then(itineraries => {
+                res.send(itineraries)
             })
             .catch(err => console.log(err));
     }

@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose"), Schema = mongoose.Schema;
 
 const citySchema = new mongoose.Schema({
     name: {
@@ -17,7 +17,7 @@ const citySchema = new mongoose.Schema({
     //     type: Date,
     //     default: Date.now
     // },
-    //itineraries: [{type: Schema.Types.ObjectId, ref: 'itinerary'}]
+    itineraries: [{type: Schema.Types.ObjectId, ref: 'itinerary'}]
 });
 
 module.exports = mongoose.model("city", citySchema);

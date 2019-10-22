@@ -1,0 +1,30 @@
+.itinerary-card-container {
+    margin: 10px 0;
+}
+
+.itinerary-bg {
+    background-color: #9fe2f7;
+    padding: 10px;
+    margin-bottom: 5px;
+}
+
+.itinerary-title {
+    font-size: 35px;
+    text-align: center;
+    color: white ;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.hashtag-container{
+    font-weight: bold;
+    color: #d4b60a;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.itinerary-content {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 10px;
+}
