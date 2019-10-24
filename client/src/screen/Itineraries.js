@@ -37,19 +37,15 @@ class Itineraries extends Component {
             )
         }
 
+        let body;
         if (itineraries.length === 0) {
-            return (
-                <div>
-                    <AppLogo/>
-                    <div className='itinerary-back'>
-                        <Link to={{pathname: '/cities'}}>
-                            <FontAwesomeIcon icon={faChevronLeft}/>
-                        </Link>
-                    </div>
-                    <div className='error-message'>Looks like no Itinerary has been made yet.</div>
-                    <Footer/>
-                </div>
-            )
+            body = (<div className='error-message'>Looks like no Itinerary has been made yet.</div>)
+        } else {
+            body = itineraries.map((itinerary) => {
+                return (
+                    <ItineraryCard key={itinerary._id} itinerary={itinerary} cityName={this.props.cityName}/>
+                )
+            })
         }
 
         return (
@@ -60,11 +56,7 @@ class Itineraries extends Component {
                         <FontAwesomeIcon icon={faChevronLeft}/>
                     </Link>
                 </div>
-                {itineraries.map((itinerary) => {
-                    return (
-                        <ItineraryCard key={itinerary._id} itinerary={itinerary} cityName={this.props.cityName}/>
-                    )
-                })}
+                {body}
                 <Footer/>
             </div>
         );
