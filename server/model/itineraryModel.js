@@ -1,5 +1,16 @@
 const mongoose = require("mongoose"), Schema = mongoose.Schema;
 
+const activitySchema = new Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+        required: true
+    }
+});
+
 const itinerarySchema = new mongoose.Schema({
     title: {
         type: String,
@@ -28,6 +39,10 @@ const itinerarySchema = new mongoose.Schema({
         ref: 'city',
         required: true
     },
+    activities: {
+        type: [activitySchema],
+        required: true
+    }
     // createdAt: {
     //     type: Date,
     //     default: Date.now

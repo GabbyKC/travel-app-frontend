@@ -3,6 +3,9 @@ import {connect} from "react-redux";
 import AppLogo from "../components/AppLogo/AppLogo";
 import Footer from "../components/Footer/Footer";
 import ItineraryCard from '../components/ItineraryCard/ItineraryCard';
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import {Link} from 'react-router-dom';
 
 import {getItineraries} from "../actions";
 
@@ -37,14 +40,26 @@ class Itineraries extends Component {
         if (itineraries.length === 0) {
             return (
                 <div>
+                    <AppLogo/>
+                    <div className='itinerary-back'>
+                        <Link to={{pathname: '/cities'}}>
+                            <FontAwesomeIcon icon={faChevronLeft}/>
+                        </Link>
+                    </div>
                     <div className='error-message'>Looks like no Itinerary has been made yet.</div>
+                    <Footer/>
                 </div>
             )
         }
 
         return (
-            <div>
+            <div className='itinerary-wrapper'>
                 <AppLogo/>
+                <div className='itinerary-back'>
+                    <Link to={{pathname: '/cities'}}>
+                        <FontAwesomeIcon icon={faChevronLeft}/>
+                    </Link>
+                </div>
                 {itineraries.map((itinerary) => {
                     return (
                         <ItineraryCard key={itinerary._id} itinerary={itinerary} cityName={this.props.cityName}/>

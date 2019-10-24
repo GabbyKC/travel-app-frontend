@@ -1,11 +1,32 @@
+.itinerary-wrapper {
+    margin-bottom: 70px;
+}
+@media only screen and (min-width: 568px) {
+    .itinerary-wrapper {
+        width: 600px;
+        margin: 0 auto 100px auto;
+    }
+}
+
 .itinerary-card-container {
     margin: 10px 0;
+}
+
+.itinerary-back {
+    margin: 0 0 10px 10px;
+}
+
+.itinerary-back a {
+    color: black;
+}
+
+.itinerary-back a:visited {
+    color: black;
 }
 
 .itinerary-bg {
     background-color: #9fe2f7;
     padding: 10px;
-    margin-bottom: 5px;
 }
 
 .itinerary-title {
@@ -23,8 +44,25 @@
     justify-content: space-evenly;
 }
 
+.itinerary-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
 .itinerary-content {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 10px;
+    margin: 10px 0;
+}
+
+.see-activities {
+    text-align: right;
+    margin: 15px 10px 20px 0;
+}
+
+.activities-button {
+    font-size: 15px;
+    border: 2px solid #9fe2f7;
+    background-color: white;
 }
