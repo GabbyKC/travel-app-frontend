@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import './Activities.css';
 
 class Activities extends Component {
     render() {
@@ -12,8 +13,8 @@ class Activities extends Component {
             <div>
                 {activities.map((activity, index) => {
                     return (
-                        <div key={index}>
-                            <p>{activity.title}</p>
+                        <div key={index} className='activities-content'>
+                            <p className='activities-title'>{activity.title}</p>
                             <p>{activity.description}</p>
                         </div>)
                 })}

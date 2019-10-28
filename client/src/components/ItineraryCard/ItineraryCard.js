@@ -45,7 +45,7 @@ class ItineraryCard extends Component {
                     <div><FontAwesomeIcon icon={faLocationArrow}/> {this.props.cityName}</div>
                 </div>
 
-                <div className='see-activities'>
+                <div className='activities-wrapper'>
                     <button className='activities-button' onClick={this.toggleActivities}>See Details <FontAwesomeIcon icon={faChevronDown}/></button>
                     {this.state.showActivities ? <Activities activities={itinerary.activities}/> : null}
                 </div>

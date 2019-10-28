@@ -13,7 +13,18 @@ class Cities extends Component {
     };
 
     componentDidMount() {
-        this.props.fetchCities();
+        this.props.fetchCities().then(() => {
+            if (this.props.location.state) {
+                const item = document.querySelector(
+                    ".restore-" + this.props.location.state.restorePoint
+                );
+
+                if (item) {
+                    item.scrollIntoView();
+                }
+            }
+        })
+
     }
 
     doSearchFilter = () => {
@@ -71,8 +82,8 @@ class Cities extends Component {
                 <div className='city-list-container'>
                     {
                         cities.map(city =>
-                            <NavLink to={`/cities/${city._id}/itineraries`} key={city._id} >
-                                <div className='image-container' style={this.getStyles(city)}>
+                            <NavLink to={`/cities/${city._id}/itineraries`} key={city._id}>
+                                <div className={`image-container restore-${city._id}`} style={this.getStyles(city)}>
                                     <div className='city-name'>{city.name}</div>
                                 </div>
                             </NavLink>

@@ -56,13 +56,13 @@
     margin: 10px 0;
 }
 
-.see-activities {
+.activities-wrapper {
     text-align: right;
-    margin: 15px 10px 20px 0;
 }
 
 .activities-button {
     font-size: 15px;
     border: 2px solid #9fe2f7;
     background-color: white;
+    margin-right: 10px;
 }
