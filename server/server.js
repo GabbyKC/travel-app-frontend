@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use("/cities", require("./routes/cities"));
+app.use("/users", require("./routes/users"));
 
 mongoose
   .connect(db, {

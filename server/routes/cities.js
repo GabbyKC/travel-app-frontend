@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const cityModel = require("../model/cityModel");
-const itineraryModel = require("../model/itineraryModel");
 
 /*get all cities*/
 router.get("/all", (req, res) => {

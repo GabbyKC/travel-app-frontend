@@ -62,7 +62,6 @@ class CreateAccount extends Component {
         return (
             <div>
                 <AppLogo/>
-
                 <form className='login-form' onSubmit={this.handleSubmit}>
                     {
                         this.state.error &&
@@ -79,7 +78,10 @@ class CreateAccount extends Component {
                            onChange={this.handlePassChange}/>
                     <input type="submit" value="Create Account"/>
                 </form>
-
+                {
+                    this.props.isLoading &&
+                    <div className='loader'></div>
+                }
                 <Footer/>
             </div>
         );
