@@ -1,11 +1,14 @@
 import React, {Component} from 'react';
-import {NavLink} from "react-router-dom";
-import './LoginCard.css';
+import {connect} from "react-redux";
+import AppLogo from "../AppLogo/AppLogo";
+import Footer from "../Footer/Footer";
+import {createAccount} from "../../actions";
 
-class LoginCard extends Component {
+class CreateAccount extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
             error: '',
@@ -19,13 +22,28 @@ class LoginCard extends Component {
     handleSubmit = event => {
         event.preventDefault();
 
+        if (!this.state.name) {
+            return this.setState({error: "Name is required"});
+        }
         if (!this.state.email) {
             return this.setState({error: "Email is required"});
         }
         if (!this.state.password) {
             return this.setState({error: "Password is required"});
         }
-        return this.setState({error: ''});
+        this.setState({error: ''});
+
+        this.props.createAccount( {
+            name: this.state.name,
+            email: this.state.email,
+            password: this.state.password
+        })
+    };
+
+    handleNameChange = event => {
+        this.setState({
+            name: event.target.value,
+        });
     };
 
     handleEmailChange = event => {
@@ -42,10 +60,8 @@ class LoginCard extends Component {
 
     render() {
         return (
-            <div className='login-content'>
-                <p className='login-intro'>
-                    To add Cities, Itineraries and Activities, please Login.
-                </p>
+            <div>
+                <AppLogo/>
 
                 <form className='login-form' onSubmit={this.handleSubmit}>
                     {
@@ -55,23 +71,27 @@ class LoginCard extends Component {
                             {this.state.error}
                         </div>
                     }
+                    <input type="text" placeholder='Joe Dude' value={this.state.name}
+                           onChange={this.handleNameChange}/>
                     <input type="email" placeholder='joe@example.com' value={this.state.email}
                            onChange={this.handleEmailChange}/>
                     <input type="password" placeholder='password' value={this.state.password}
                            onChange={this.handlePassChange}/>
-                    <input type="submit" value="Login"/>
+                    <input type="submit" value="Create Account"/>
                 </form>
 
-                <hr/>
-
-                <div className='create-account'>
-                    <p className='account-intro'>Don't have an account yet?</p>
-                    <NavLink to="/create">Create Account</NavLink>
-                </div>
-
+                <Footer/>
             </div>
         );
     }
 }
 
-export default LoginCard;
+const mapStateToProps = state => {
+    return {isLoading: state.users.isLoading};
+};
+
+const mapDispatchToProps = dispatch => ({
+    createAccount: (data) => dispatch(createAccount(data))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreateAccount);

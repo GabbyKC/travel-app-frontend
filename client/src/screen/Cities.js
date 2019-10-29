@@ -3,9 +3,9 @@ import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
 import Footer from '../components/Footer/Footer';
 import AppLogo from "../components/AppLogo/AppLogo";
-import './Cities.css';
-
 import {getCities} from '../actions';
+
+import './Cities.css';
 
 class Cities extends Component {
     state = {
