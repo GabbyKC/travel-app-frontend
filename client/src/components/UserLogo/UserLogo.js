@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
-import './Header.css';
+import './UserLogo.css';
 
 
-export default class Header extends Component {
+export default class UserLogo extends Component {
     render() {
         return (
             <div className='user-container'>

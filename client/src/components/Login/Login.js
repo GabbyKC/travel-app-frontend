@@ -1,19 +1,15 @@
 import React, { Component } from 'react'
+import AppLogo from "../AppLogo/AppLogo";
 import Footer from '../Footer/Footer'
+import LoginCard from "../LoginCard/LoginCard";
 
 export default class Login extends Component {
     render() {
         return (
-            <div>
-                <p className="">
-                    To build your own Trip recommendation, please Log in or Create an Account.
-                 </p>
-
-                <p>login</p>
-                <p>create account</p>
-
+            <div className='login-wrapper'>
+                <AppLogo/>
+               <LoginCard/>
                 <Footer />
-
             </div>
         )
     }

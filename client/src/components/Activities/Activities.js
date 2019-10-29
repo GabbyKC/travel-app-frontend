@@ -6,7 +6,7 @@ class Activities extends Component {
         const activities = this.props.activities;
 
         if (!activities || activities.length === 0) {
-            return (<p>Nadda for ya bro</p>)
+            return (<div className='error-message'>Looks like no Activities have been added yet.</div>)
         }
 
         return (
