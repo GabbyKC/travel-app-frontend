@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import AppLogo from "../AppLogo/AppLogo";
 import Footer from "../Footer/Footer";
 import {createAccount} from "../../actions";
+import {Redirect} from "react-router-dom";
 
 class CreateAccount extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ class CreateAccount extends Component {
         }
         this.setState({error: ''});
 
-        this.props.createAccount( {
+        this.props.createAccount({
             name: this.state.name,
             email: this.state.email,
             password: this.state.password
@@ -59,6 +60,10 @@ class CreateAccount extends Component {
     };
 
     render() {
+        if (this.props.userCreated) {
+            return <Redirect to='/login'/>;
+        }
+
         return (
             <div>
                 <AppLogo/>
@@ -89,7 +94,7 @@ class CreateAccount extends Component {
 }
 
 const mapStateToProps = state => {
-    return {isLoading: state.users.isLoading};
+    return {isLoading: state.users.isLoading, userCreated: state.users.userCreated};
 };
 
 const mapDispatchToProps = dispatch => ({

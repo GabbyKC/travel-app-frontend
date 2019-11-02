@@ -35,7 +35,7 @@ const itinerarySchema = new mongoose.Schema({
         type: [String]
     },
     city: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'city',
         required: true
     },

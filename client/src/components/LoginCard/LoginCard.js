@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {NavLink} from "react-router-dom";
 import './LoginCard.css';
+import {connect} from "react-redux";
 
 class LoginCard extends Component {
     constructor(props) {
@@ -63,15 +64,24 @@ class LoginCard extends Component {
                 </form>
 
                 <hr/>
-
-                <div className='create-account'>
-                    <p className='account-intro'>Don't have an account yet?</p>
-                    <NavLink to="/create">Create Account</NavLink>
-                </div>
-
+                {
+                    !this.props.userCreated &&
+                    <div className='create-account'>
+                        <p className='account-intro'>Don't have an account yet?</p>
+                        <NavLink to="/create">Create Account</NavLink>
+                    </div>
+                }
             </div>
         );
     }
 }
 
-export default LoginCard;
+const mapStateToProps = state => {
+    return {userCreated: state.users.userCreated};
+};
+
+const mapDispatchToProps = dispatch => ({
+    login: (data) => dispatch({})
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginCard);
