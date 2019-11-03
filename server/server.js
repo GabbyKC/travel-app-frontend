@@ -4,6 +4,9 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const app = express();
 const mongoose = require("mongoose");
+const passport = require("passport");
+
+require("./passport")(passport);
 
 app.use(
   bodyParser.urlencoded({
@@ -12,6 +15,7 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cors());
+app.use(passport.initialize());
 
 app.use("/cities", require("./routes/cities"));
 app.use("/users", require("./routes/users"));

@@ -2,21 +2,22 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const { check, validationResult } = require('express-validator');
+const {check, validationResult} = require('express-validator');
+const passport = require("passport");
 
 const userModel = require('../model/userModel');
 const secretKey = require('../keys').secret;
 const saltRounds = 10;
 
-router.post('/',[
+router.post('/', [
     check('email').isEmail(),
-    check('password').isLength({ min: 5 })
+    check('password').isLength({min: 5})
 ], (req, res) => {
     const {name, email, password} = req.body;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        return res.status(422).json({errors: errors.array()});
     }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
@@ -35,7 +36,7 @@ router.post('/',[
 
                 newUser.save()
                     .then(user => {
-                        res.send(user)
+                        res.send(user)//TODO don't send everything in response
                     })
                     .catch(err => {
                         res.status(500).send("Server error " + err)
@@ -45,15 +46,15 @@ router.post('/',[
         .catch(err => console.log(err));
 });
 
-router.post('/login',[
+router.post('/login', [
     check('email').isEmail(),
-    check('password').isLength({ min: 5 })
+    check('password').isLength({min: 5})
 ], (req, res) => {
     const {email, password} = req.body;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        return res.status(422).json({errors: errors.array()});
     }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
@@ -84,7 +85,7 @@ router.post('/login',[
                                     token: null
                                 });
                             } else {
-                                res.status(401).json({
+                                res.json({
                                     success: true,
                                     token: token
                                 });
@@ -101,5 +102,16 @@ router.post('/login',[
         })
         .catch(err => console.log(err));
 });
+
+router.get('/',
+    passport.authenticate('jwt', {session: false}),
+    (req, res) => {
+        userModel
+            .findOne({_id: req.user.id})
+            .then(user => {
+                res.json(user);//TODO don't send everything in response
+            }).catch(err => res.status(404).json({error: "User does not exist!"}));
+    }
+);
 
 module.exports = router;
