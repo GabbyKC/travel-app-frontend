@@ -12,15 +12,15 @@
     margin: 10px 0;
 }
 
-.itinerary-back {
+.back-arrow {
     margin: 0 0 10px 10px;
 }
 
-.itinerary-back a {
+.back-arrow a {
     color: black;
 }
 
-.itinerary-back a:visited {
+.back-arrow a:visited {
     color: black;
 }
 

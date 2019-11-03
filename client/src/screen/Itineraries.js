@@ -51,7 +51,7 @@ class Itineraries extends Component {
         return (
             <div className='itinerary-wrapper'>
                 <AppLogo/>
-                <div className='itinerary-back'>
+                <div className='back-arrow'>
                     <Link to={{pathname: '/cities', state: {restorePoint: this.props.match.params.cityId}}}>
                         <FontAwesomeIcon icon={faChevronLeft}/>
                     </Link>

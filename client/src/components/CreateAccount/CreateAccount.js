@@ -3,7 +3,9 @@ import {connect} from "react-redux";
 import AppLogo from "../AppLogo/AppLogo";
 import Footer from "../Footer/Footer";
 import {createAccount} from "../../actions";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 
 class CreateAccount extends Component {
     constructor(props) {
@@ -67,6 +69,12 @@ class CreateAccount extends Component {
         return (
             <div>
                 <AppLogo/>
+                <div className='back-arrow'>
+                    <Link to={{pathname: '/login'}}>
+                        <FontAwesomeIcon icon={faChevronLeft}/>
+                    </Link>
+                </div>
+                <p className='account-intro'>Once your account is created, you will be redirected to Login.</p>
                 <form className='login-form' onSubmit={this.handleSubmit}>
                     {
                         this.state.error &&
