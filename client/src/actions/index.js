@@ -1,4 +1,17 @@
-import {FETCH_CITIES_SUCCESS, FETCH_CITIES_REQUEST, FETCH_CITIES_FAILURE, FETCH_ITINERARIES_SUCCESS, FETCH_ITINERARIES_REQUEST, FETCH_ITINERARIES_FAILURE, CREATE_USER_FAILURE, CREATE_USER_REQUEST, CREATE_USER_SUCCESS} from '../constants/action-types';
+import {
+    FETCH_CITIES_SUCCESS,
+    FETCH_CITIES_REQUEST,
+    FETCH_CITIES_FAILURE,
+    FETCH_ITINERARIES_SUCCESS,
+    FETCH_ITINERARIES_REQUEST,
+    FETCH_ITINERARIES_FAILURE,
+    CREATE_USER_FAILURE,
+    CREATE_USER_REQUEST,
+    CREATE_USER_SUCCESS,
+    USER_LOGIN_REQUEST,
+    USER_LOGIN_SUCCESS,
+    USER_LOGIN_FAILURE
+} from '../constants/action-types';
 
 export function getCities() {
     return function (dispatch) {
@@ -44,5 +57,28 @@ export function createAccount(data) {
                 dispatch({type: CREATE_USER_SUCCESS, payload: json});
             })
             .catch(e => dispatch({type: CREATE_USER_FAILURE}));
+    };
+}
+
+export function logUserIn(data) {
+    return function (dispatch) {
+        dispatch({type: USER_LOGIN_REQUEST});
+
+        return fetch('http://192.168.0.110:5000/users/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.token) {
+                    dispatch({type: USER_LOGIN_SUCCESS, payload: json});
+                } else {
+                    dispatch({type: USER_LOGIN_FAILURE})
+                }
+            })
+            .catch(e => dispatch({type: USER_LOGIN_FAILURE}));
     };
 }

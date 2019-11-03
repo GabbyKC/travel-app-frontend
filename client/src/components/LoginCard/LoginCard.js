@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {NavLink} from "react-router-dom";
 import './LoginCard.css';
 import {connect} from "react-redux";
+import {logUserIn} from "../../actions";
 
 class LoginCard extends Component {
     constructor(props) {
@@ -26,7 +27,12 @@ class LoginCard extends Component {
         if (!this.state.password) {
             return this.setState({error: "Password is required"});
         }
-        return this.setState({error: ''});
+        this.setState({error: ''});
+
+        this.props.login({
+            email: this.state.email,
+            password: this.state.password
+        })
     };
 
     handleEmailChange = event => {
@@ -63,6 +69,11 @@ class LoginCard extends Component {
                     <input type="submit" value="Login"/>
                 </form>
 
+                {
+                    this.props.isLoading &&
+                    <div className='loader'></div>
+                }
+
                 <hr/>
                 {
                     !this.props.userCreated &&
@@ -77,11 +88,11 @@ class LoginCard extends Component {
 }
 
 const mapStateToProps = state => {
-    return {userCreated: state.users.userCreated};
+    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading};
 };
 
 const mapDispatchToProps = dispatch => ({
-    login: (data) => dispatch({})
+    login: (data) => dispatch(logUserIn(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginCard);
