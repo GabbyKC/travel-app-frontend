@@ -38,11 +38,15 @@
 .create-account {
     text-align: center;
     margin-top: 20px;
+    background-color: beige;
+    border-radius: 2%;
+    padding: 15px;
 }
 
 .create-account a {
-    border: 1px solid grey;
+    border: 1px solid #9fe2f7;
     padding: 2px;
+    background-color: white;
 }
 
 .create-account a:visited {
