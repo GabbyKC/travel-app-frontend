@@ -2,13 +2,22 @@ const jwt = require("jsonwebtoken");
 const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
+const { check, validationResult } = require('express-validator');
 
 const userModel = require('../model/userModel');
 const secretKey = require('../keys').secret;
 const saltRounds = 10;
 
-router.post('/', (req, res) => {
+router.post('/',[
+    check('email').isEmail(),
+    check('password').isLength({ min: 5 })
+], (req, res) => {
     const {name, email, password} = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
         .then(result => {
@@ -36,8 +45,16 @@ router.post('/', (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/login', (req, res) => {
+router.post('/login',[
+    check('email').isEmail(),
+    check('password').isLength({ min: 5 })
+], (req, res) => {
     const {email, password} = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
         .then(existingUser => {

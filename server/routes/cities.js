@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const cityModel = require("../model/cityModel");
+const { check, validationResult } = require('express-validator');
 require("../model/itineraryModel");
 
 /*get all cities*/
@@ -13,8 +14,17 @@ router.get("/all", (req, res) => {
         .catch(err => console.log(err));
 });
 
-router.post('/', (req, res) => {
+router.post('/', [
+    check('name').isString().isLength({ min: 1 }),
+    check('country').isString().isLength({ min: 1 }),
+    check('img').isURL(),
+],(req, res) => {
     const {name, country, img} = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
 
     cityModel.find({name: {"$regex": name, "$options": "i"}})
         .then(result => {
