@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {NavLink} from "react-router-dom";
+import {NavLink, Redirect} from "react-router-dom";
 import './LoginCard.css';
 import {connect} from "react-redux";
 import {logUserIn} from "../../actions";
@@ -48,6 +48,9 @@ class LoginCard extends Component {
     };
 
     render() {
+        if (this.props.userToken) {
+            return <Redirect to='/cities'/>;
+        }
         return (
             <div className='login-content'>
                 <p className='login-intro'>
@@ -88,7 +91,7 @@ class LoginCard extends Component {
 }
 
 const mapStateToProps = state => {
-    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading};
+    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading, userToken: state.users.userToken};
 };
 
 const mapDispatchToProps = dispatch => ({
