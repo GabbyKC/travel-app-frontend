@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true
-    }
+    },
+    favoriteItineraries: [{type: mongoose.Schema.Types.ObjectId, ref: 'itinerary'}]
 });
 
 module.exports = mongoose.model("user", userSchema);

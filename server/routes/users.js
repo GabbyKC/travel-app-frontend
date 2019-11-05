@@ -23,7 +23,7 @@ router.post('/', [
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
         .then(result => {
             if (result) {
-                res.status(409).send({"errors":[{"msg":"Email is already in use"}]});
+                res.status(409).send({"errors": [{"msg": "Email is already in use"}]});
             } else {
                 let salt = bcrypt.genSaltSync(saltRounds);
                 let hashedPassword = bcrypt.hashSync(password, salt);
@@ -39,7 +39,7 @@ router.post('/', [
                         res.status(204).send()
                     })
                     .catch(err => {
-                        res.status(500).send({"errors":[{"msg":`Server error ${err}`}]})
+                        res.status(500).send({"errors": [{"msg": `Server error ${err}`}]})
                     })
             }
         })
@@ -54,16 +54,17 @@ router.post('/login', [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
+        return res.status(401).json({"errors": [{"msg": "Invalid credentials"}]});
     }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
+        .populate('favoriteItineraries')
         .then(existingUser => {
             if (existingUser) {
                 let passwordsMatch = bcrypt.compareSync(password, existingUser.password);
 
                 if (!passwordsMatch) {
-                    res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
+                    res.status(401).json({"errors": [{"msg": "Invalid credentials"}]});
                 } else {
                     const payload = {
                         id: existingUser._id,
@@ -77,10 +78,13 @@ router.post('/login', [
                         options,
                         (err, token) => {
                             if (err) {
-                                res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
+                                res.status(401).json({"errors": [{"msg": "Invalid credentials"}]});
                             } else {
                                 res.json({
-                                    success: true,
+                                    id: existingUser._id,
+                                    userName: existingUser.name,
+                                    email: existingUser.email,
+                                    favoriteItineraries: existingUser.favoriteItineraries,
                                     token: token
                                 });
                             }
@@ -88,12 +92,69 @@ router.post('/login', [
                     );
                 }
             } else {
-                res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
+                res.status(401).json({"errors": [{"msg": "Invalid credentials"}]});
             }
         })
         .catch(err => console.log(err));
 });
 
+router.post('/favoriteItineraries/:itineraryId',
+    passport.authenticate('jwt', {session: false}),
+    (req, res) => {
+        userModel
+            .findOne({_id: req.user.id})
+            .then(user => {
+                const itineraryId = req.params.itineraryId;
+                if(!user.favoriteItineraries.includes(itineraryId)) {
+                    user.favoriteItineraries.push(itineraryId);
+
+                    user.save()
+                        .then(user => {
+                            user.populate('favoriteItineraries').execPopulate().then(user =>
+                                res.json({
+                                    id: user._id,
+                                    userName: user.name,
+                                    email: user.email,
+                                    favoriteItineraries: user.favoriteItineraries,
+                                })
+                            );
+                        })
+                } else {
+                    res.status(409).send()
+                }
+            }).catch(err => res.status(404).json({"errors": [{"msg": "User not found"}]}));
+    }
+);
+
+router.delete('/favoriteItineraries/:itineraryId',
+    passport.authenticate('jwt', {session: false}),
+    (req, res) => {
+        userModel
+            .findOne({_id: req.user.id})
+            .then(user => {
+                const itineraryId = req.params.itineraryId;
+                if(user.favoriteItineraries.includes(itineraryId)) {
+                    user.favoriteItineraries.pop(itineraryId);
+
+                    user.save()
+                        .then(user => {
+                            user.populate('favoriteItineraries').execPopulate().then(user =>
+                                res.json({
+                                    id: user._id,
+                                    userName: user.name,
+                                    email: user.email,
+                                    favoriteItineraries: user.favoriteItineraries,
+                                })
+                            );
+                        })
+                } else {
+                    res.status(404).send()
+                }
+            }).catch(err => res.status(404).json({"errors": [{"msg": "User not found"}]}));
+    }
+);
+
+// Unused
 router.get('/',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {
@@ -105,7 +166,7 @@ router.get('/',
                     userName: user.name,
                     email: user.email
                 });
-            }).catch(err => res.status(404).json({"errors":[{"msg":"User not found"}]}));
+            }).catch(err => res.status(404).json({"errors": [{"msg": "User not found"}]}));
     }
 );
 
