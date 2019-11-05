@@ -53,9 +53,10 @@ class LoginCard extends Component {
         }
         return (
             <div className='login-content'>
-                <p className='login-intro'>
-                    To add Cities, Itineraries and Activities, please Login.
-                </p>
+                {
+                    this.props.isLoading &&
+                    <div className='login-loader'></div>
+                }
 
                 <form className='login-form' onSubmit={this.handleSubmit}>
                     {
@@ -65,17 +66,18 @@ class LoginCard extends Component {
                             {this.state.error}
                         </div>
                     }
+                    {
+                        this.props.errorMessages.length > 0 &&
+                        <div className='login-required'>
+                            {this.props.errorMessages[0]}
+                        </div>
+                    }
                     <input type="email" placeholder='joe@example.com' value={this.state.email}
                            onChange={this.handleEmailChange}/>
                     <input type="password" placeholder='password' value={this.state.password}
                            onChange={this.handlePassChange}/>
                     <input type="submit" value="Login"/>
                 </form>
-
-                {
-                    this.props.isLoading &&
-                    <div className='loader'></div>
-                }
 
                 <hr/>
                 {
@@ -91,7 +93,7 @@ class LoginCard extends Component {
 }
 
 const mapStateToProps = state => {
-    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading, userToken: state.users.userToken};
+    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading, userToken: state.users.userToken, errorMessages: state.users.errorMessages};
 };
 
 const mapDispatchToProps = dispatch => ({

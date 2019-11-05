@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import {NavLink} from "react-router-dom";
-import Footer from '../components/Footer/Footer';
 import AppLogo from "../components/AppLogo/AppLogo";
+import SideMenu from "../components/SideMenu/SideMenu";
+import Footer from '../components/Footer/Footer';
 import {getCities} from '../actions';
 
 import './Cities.css';
@@ -71,6 +72,10 @@ class Cities extends Component {
         return (
             <div className='cities-wrapper'>
                 <AppLogo/>
+                {
+                    this.props.userToken &&
+                        <SideMenu/>
+                }
                 <div className='input-container'>
                     <input className="cities-input"
                            type="text"
@@ -97,7 +102,7 @@ class Cities extends Component {
 }
 
 const mapStateToProps = state => {
-    return {cities: state.cities.cities, isLoading: state.cities.isLoading};
+    return {cities: state.cities.cities, isLoading: state.cities.isLoading, userToken: state.users.userToken};
 };
 
 const mapDispatchToProps = dispatch => ({

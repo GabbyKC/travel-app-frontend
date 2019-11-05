@@ -54,7 +54,11 @@ export function createAccount(data) {
         })
             .then(response => response.json())
             .then(json => {
-                dispatch({type: CREATE_USER_SUCCESS, payload: json});
+                if (json.errors) {
+                    dispatch({type: CREATE_USER_FAILURE, payload: json.errors})
+                } else {
+                    dispatch({type: CREATE_USER_SUCCESS, payload: json});
+                }
             })
             .catch(e => dispatch({type: CREATE_USER_FAILURE}));
     };
@@ -73,10 +77,10 @@ export function logUserIn(data) {
         })
             .then(response => response.json())
             .then(json => {
-                if (json.token) {
-                    dispatch({type: USER_LOGIN_SUCCESS, payload: json});
+                if (json.errors) {
+                    dispatch({type: USER_LOGIN_FAILURE, payload: json.errors})
                 } else {
-                    dispatch({type: USER_LOGIN_FAILURE})
+                    dispatch({type: USER_LOGIN_SUCCESS, payload: json});
                 }
             })
             .catch(e => dispatch({type: USER_LOGIN_FAILURE}));

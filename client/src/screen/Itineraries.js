@@ -6,8 +6,8 @@ import ItineraryCard from '../components/ItineraryCard/ItineraryCard';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
 import {Link} from 'react-router-dom';
-
 import {getItineraries} from "../actions";
+import SideMenu from "../components/SideMenu/SideMenu";
 
 class Itineraries extends Component {
     componentDidMount() {
@@ -51,6 +51,10 @@ class Itineraries extends Component {
         return (
             <div className='itinerary-wrapper'>
                 <AppLogo/>
+                {
+                    this.props.userToken &&
+                    <SideMenu/>
+                }
                 <div className='back-arrow'>
                     <Link to={{pathname: '/cities', state: {restorePoint: this.props.match.params.cityId}}}>
                         <FontAwesomeIcon icon={faChevronLeft}/>
@@ -67,7 +71,8 @@ const mapStateToProps = state => {
     return {
         itineraries: state.itineraries.itineraries,
         cityName: state.itineraries.cityName,
-        isLoading: state.itineraries.isLoading
+        isLoading: state.itineraries.isLoading,
+        userToken: state.users.userToken
     }
 };
 

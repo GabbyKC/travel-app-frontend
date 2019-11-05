@@ -11,7 +11,7 @@ const saltRounds = 10;
 
 router.post('/', [
     check('email').isEmail(),
-    check('password').isLength({min: 5})
+    check('password').isLength({min: 5}).withMessage('Password must be at least 5 characters long')
 ], (req, res) => {
     const {name, email, password} = req.body;
     const errors = validationResult(req);
@@ -23,7 +23,7 @@ router.post('/', [
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
         .then(result => {
             if (result) {
-                res.status(409).send(`Email: '${email}' already exists`);
+                res.status(409).send({"errors":[{"msg":"Email is already in use"}]});
             } else {
                 let salt = bcrypt.genSaltSync(saltRounds);
                 let hashedPassword = bcrypt.hashSync(password, salt);
@@ -39,7 +39,7 @@ router.post('/', [
                         res.send(user)//TODO don't send everything in response
                     })
                     .catch(err => {
-                        res.status(500).send("Server error " + err)
+                        res.status(500).send({"errors":[{"msg":`Server error ${err}`}]})
                     })
             }
         })
@@ -54,7 +54,7 @@ router.post('/login', [
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({errors: errors.array()});
+        return res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
     }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
@@ -63,10 +63,7 @@ router.post('/login', [
                 let passwordsMatch = bcrypt.compareSync(password, existingUser.password);
 
                 if (!passwordsMatch) {
-                    res.status(401).json({
-                        success: false,
-                        token: null
-                    });
+                    res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
                 } else {
                     const payload = {
                         id: existingUser._id,
@@ -80,10 +77,7 @@ router.post('/login', [
                         options,
                         (err, token) => {
                             if (err) {
-                                res.status(401).json({
-                                    success: false,
-                                    token: null
-                                });
+                                res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
                             } else {
                                 res.json({
                                     success: true,
@@ -94,10 +88,7 @@ router.post('/login', [
                     );
                 }
             } else {
-                res.status(401).json({
-                    success: false,
-                    token: null
-                });
+                res.status(401).json({"errors":[{"msg":"Invalid credentials"}]});
             }
         })
         .catch(err => console.log(err));
@@ -110,7 +101,7 @@ router.get('/',
             .findOne({_id: req.user.id})
             .then(user => {
                 res.json(user);//TODO don't send everything in response
-            }).catch(err => res.status(404).json({error: "User does not exist!"}));
+            }).catch(err => res.status(404).json({"errors":[{"msg":"User not found"}]}));
     }
 );
 

@@ -1,11 +1,6 @@
 .login-content {
     margin: 10px;
 }
-.login-intro {
-    font-size: 22px;
-    margin: 0;
-    text-align: center;
-}
 
 .login-form {
     margin: 20px auto 0 auto;
@@ -37,15 +32,16 @@
 
 .create-account {
     text-align: center;
-    margin-top: 20px;
+    margin: 20px 0 80px 0;
     background-color: beige;
     border-radius: 2%;
     padding: 15px;
 }
 
 .create-account a {
-    border: 1px solid #9fe2f7;
+    border: 1px solid black;
     padding: 2px;
+    color: black;
     background-color: white;
 }
 

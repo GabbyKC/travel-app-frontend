@@ -65,7 +65,6 @@ class CreateAccount extends Component {
         if (this.props.userCreated) {
             return <Redirect to='/login'/>;
         }
-
         return (
             <div>
                 <AppLogo/>
@@ -75,12 +74,22 @@ class CreateAccount extends Component {
                     </Link>
                 </div>
                 <p className='account-intro'>Once your account is created, you will be redirected to Login.</p>
+                {
+                    this.props.isLoading &&
+                    <div className='login-loader'></div>
+                }
                 <form className='login-form' onSubmit={this.handleSubmit}>
                     {
                         this.state.error &&
                         <div className='login-required' onClick={this.dismissError}>
                             <button onClick={this.dismissError}>✖</button>
                             {this.state.error}
+                        </div>
+                    }
+                    {
+                        this.props.errorMessages.length > 0 &&
+                        <div className='login-required'>
+                            {this.props.errorMessages[0]}
                         </div>
                     }
                     <input type="text" placeholder='Joe Dude' value={this.state.name}
@@ -91,10 +100,6 @@ class CreateAccount extends Component {
                            onChange={this.handlePassChange}/>
                     <input type="submit" value="Create Account"/>
                 </form>
-                {
-                    this.props.isLoading &&
-                    <div className='loader'></div>
-                }
                 <Footer/>
             </div>
         );
@@ -102,7 +107,11 @@ class CreateAccount extends Component {
 }
 
 const mapStateToProps = state => {
-    return {isLoading: state.users.isLoading, userCreated: state.users.userCreated};
+    return {
+        isLoading: state.users.isLoading,
+        userCreated: state.users.userCreated,
+        errorMessages: state.users.errorMessages
+    };
 };
 
 const mapDispatchToProps = dispatch => ({
