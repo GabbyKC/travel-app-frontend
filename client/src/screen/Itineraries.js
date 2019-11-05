@@ -52,7 +52,7 @@ class Itineraries extends Component {
             <div className='itinerary-wrapper'>
                 <AppLogo/>
                 {
-                    this.props.userToken &&
+                    this.props.loggedInUser &&
                     <SideMenu/>
                 }
                 <div className='back-arrow'>
@@ -72,7 +72,7 @@ const mapStateToProps = state => {
         itineraries: state.itineraries.itineraries,
         cityName: state.itineraries.cityName,
         isLoading: state.itineraries.isLoading,
-        userToken: state.users.userToken
+        loggedInUser: state.users.loggedInUser
     }
 };
 

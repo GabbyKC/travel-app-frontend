@@ -12,6 +12,7 @@ import {
     USER_LOGIN_SUCCESS,
     USER_LOGIN_FAILURE
 } from '../constants/action-types';
+import jwtDecode from 'jwt-decode';
 
 export function getCities() {
     return function (dispatch) {
@@ -80,7 +81,9 @@ export function logUserIn(data) {
                 if (json.errors) {
                     dispatch({type: USER_LOGIN_FAILURE, payload: json.errors})
                 } else {
-                    dispatch({type: USER_LOGIN_SUCCESS, payload: json});
+                    const token = json.token;
+                    const username = jwtDecode(json.token).name;
+                    dispatch({type: USER_LOGIN_SUCCESS, payload: {token: token, username: username}});
                 }
             })
             .catch(e => dispatch({type: USER_LOGIN_FAILURE}));

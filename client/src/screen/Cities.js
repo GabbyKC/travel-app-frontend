@@ -73,7 +73,7 @@ class Cities extends Component {
             <div className='cities-wrapper'>
                 <AppLogo/>
                 {
-                    this.props.userToken &&
+                    this.props.loggedInUser &&
                         <SideMenu/>
                 }
                 <div className='input-container'>
@@ -102,7 +102,7 @@ class Cities extends Component {
 }
 
 const mapStateToProps = state => {
-    return {cities: state.cities.cities, isLoading: state.cities.isLoading, userToken: state.users.userToken};
+    return {cities: state.cities.cities, isLoading: state.cities.isLoading, loggedInUser: state.users.loggedInUser};
 };
 
 const mapDispatchToProps = dispatch => ({

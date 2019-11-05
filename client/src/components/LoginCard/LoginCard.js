@@ -48,7 +48,7 @@ class LoginCard extends Component {
     };
 
     render() {
-        if (this.props.userToken) {
+        if (this.props.loggedInUser) {
             return <Redirect to='/cities'/>;
         }
         return (
@@ -93,7 +93,7 @@ class LoginCard extends Component {
 }
 
 const mapStateToProps = state => {
-    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading, userToken: state.users.userToken, errorMessages: state.users.errorMessages};
+    return {userCreated: state.users.userCreated, isLoading: state.users.isLoading, loggedInUser: state.users.loggedInUser, errorMessages: state.users.errorMessages};
 };
 
 const mapDispatchToProps = dispatch => ({

@@ -10,7 +10,7 @@ import {
 export const initialState = {
     isLoading: false,
     userCreated: false,
-    userToken: null,
+    loggedInUser: null,
     errorMessages: [],
 };
 
@@ -34,7 +34,11 @@ export function reducer(state = initialState, action) {
         return {...state, isLoading: true}
     }
     if (action.type === USER_LOGIN_SUCCESS) {
-        return {...state, isLoading: false, userToken: action.payload.token}
+        return {
+            ...state,
+            isLoading: false,
+            loggedInUser: {token: action.payload.token, username: action.payload.username}
+        }
     }
     if (action.type === USER_LOGIN_FAILURE) {
         if (action.payload) {
@@ -43,7 +47,7 @@ export function reducer(state = initialState, action) {
             });
             return {...state, isLoading: false, errorMessages: errors}
         }
-        return {...state, isLoading: false, }
+        return {...state, isLoading: false,}
     }
 
     return state;

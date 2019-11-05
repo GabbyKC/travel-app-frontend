@@ -36,7 +36,7 @@ router.post('/', [
 
                 newUser.save()
                     .then(user => {
-                        res.send(user)//TODO don't send everything in response
+                        res.status(204).send()
                     })
                     .catch(err => {
                         res.status(500).send({"errors":[{"msg":`Server error ${err}`}]})
@@ -100,7 +100,11 @@ router.get('/',
         userModel
             .findOne({_id: req.user.id})
             .then(user => {
-                res.json(user);//TODO don't send everything in response
+                res.json({
+                    id: user._id,
+                    userName: user.name,
+                    email: user.email
+                });
             }).catch(err => res.status(404).json({"errors":[{"msg":"User not found"}]}));
     }
 );
