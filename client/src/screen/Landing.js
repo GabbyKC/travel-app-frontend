@@ -3,12 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowCircleRight } from "@fortawesome/free-solid-svg-icons";
 import { NavLink } from "react-router-dom";
 import "./Landing.css";
-import UserLogo from "../components/UserLogo/UserLogo";
 
 const Landing = () => {
   return (
     <div className='landing-bg'>
-      <UserLogo />
       <div className="flex-container">
         <img
           className="app-logo"

@@ -4,7 +4,8 @@ import {
     CREATE_USER_FAILURE,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
-    USER_LOGIN_FAILURE
+    USER_LOGIN_FAILURE,
+    USER_LOGOUT_REQUEST
 } from '../constants/action-types';
 
 export const initialState = {
@@ -49,6 +50,8 @@ export function reducer(state = initialState, action) {
         }
         return {...state, isLoading: false,}
     }
-
+    if (action.type === USER_LOGOUT_REQUEST) {
+        return {...state, loggedInUser: null}
+    }
     return state;
 }

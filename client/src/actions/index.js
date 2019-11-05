@@ -10,7 +10,8 @@ import {
     CREATE_USER_SUCCESS,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
-    USER_LOGIN_FAILURE
+    USER_LOGIN_FAILURE,
+    USER_LOGOUT_REQUEST
 } from '../constants/action-types';
 import jwtDecode from 'jwt-decode';
 
@@ -88,4 +89,10 @@ export function logUserIn(data) {
             })
             .catch(e => dispatch({type: USER_LOGIN_FAILURE}));
     };
+}
+
+export function logUserOut() {
+    return function (dispatch) {
+        dispatch({type: USER_LOGOUT_REQUEST});
+    }
 }

@@ -57,7 +57,6 @@ class LoginCard extends Component {
                     this.props.isLoading &&
                     <div className='login-loader'></div>
                 }
-
                 <form className='login-form' onSubmit={this.handleSubmit}>
                     {
                         this.state.error &&

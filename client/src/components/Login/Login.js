@@ -12,7 +12,7 @@ export default class Login extends Component {
             <div className='login-wrapper'>
                 <AppLogo/>
                 <div className='back-arrow'>
-                    <Link to={{pathname: '/'}}>
+                    <Link to={{pathname: '/cities'}}>
                         <FontAwesomeIcon icon={faChevronLeft}/>
                     </Link>
                 </div>
