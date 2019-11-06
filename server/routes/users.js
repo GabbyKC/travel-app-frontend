@@ -63,14 +63,6 @@ router.post('/login', [
     }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
-        .populate({
-            path: 'favoriteItineraries',
-            model: 'itinerary',
-            populate: [{
-                path: 'city',
-                model: 'city'
-            }]
-        })
         .then(existingUser => {
             if (existingUser) {
                 let passwordsMatch = bcrypt.compareSync(password, existingUser.password);
@@ -93,10 +85,6 @@ router.post('/login', [
                                 res.status(401).json({"errors": [{"msg": "Invalid credentials"}]});
                             } else {
                                 res.json({
-                                    id: existingUser._id,
-                                    userName: existingUser.name,
-                                    email: existingUser.email,
-                                    favoriteItineraries: existingUser.favoriteItineraries,
                                     token: token
                                 });
                             }
@@ -166,17 +154,25 @@ router.delete('/favoriteItineraries/:itineraryId',
     }
 );
 
-// Unused for now
 router.get('/',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {
         userModel
             .findOne({_id: req.user.id})
+            .populate({
+                path: 'favoriteItineraries',
+                model: 'itinerary',
+                populate: [{
+                    path: 'city',
+                    model: 'city'
+                }]
+            })
             .then(user => {
                 res.json({
                     id: user._id,
                     userName: user.name,
-                    email: user.email
+                    email: user.email,
+                    favoriteItineraries: user.favoriteItineraries
                 });
             }).catch(err => res.status(404).json({"errors": [{"msg": "User not found"}]}));
     }

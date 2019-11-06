@@ -7,7 +7,6 @@ export const initialState = {
 
 export function reducer(state = initialState, action) {
     if (action.type === FETCH_CITIES_SUCCESS) {
-        console.log('action', action);
         return { ...state, cities: action.payload, isLoading: false };
     }
     if (action.type === FETCH_CITIES_REQUEST) {

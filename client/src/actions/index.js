@@ -8,10 +8,12 @@ import {
     CREATE_USER_FAILURE,
     CREATE_USER_REQUEST,
     CREATE_USER_SUCCESS,
-    USER_LOGIN_REQUEST,
-    USER_LOGIN_SUCCESS,
-    USER_LOGIN_FAILURE,
-    USER_LOGOUT_REQUEST
+    LOGIN_USER_REQUEST,
+    LOGIN_USER_SUCCESS,
+    LOGIN_USER_FAILURE,
+    LOGOUT_USER_REQUEST,
+    FETCH_USER_DATA_SUCCESS,
+    FETCH_USER_DATA_FAILURE
 } from '../constants/action-types';
 import jwtDecode from 'jwt-decode';
 
@@ -22,7 +24,6 @@ export function getCities() {
         return fetch('http://192.168.0.110:5000/cities')
             .then(response => response.json())
             .then(json => {
-                console.log('payload', json);
                 dispatch({type: FETCH_CITIES_SUCCESS, payload: json});
             })
             .catch(e => dispatch({type: FETCH_CITIES_FAILURE}));
@@ -68,7 +69,7 @@ export function createAccount(data) {
 
 export function logUserIn(data) {
     return function (dispatch) {
-        dispatch({type: USER_LOGIN_REQUEST});
+        dispatch({type: LOGIN_USER_REQUEST});
 
         return fetch('http://192.168.0.110:5000/users/login', {
             method: 'POST',
@@ -80,18 +81,41 @@ export function logUserIn(data) {
             .then(response => response.json())
             .then(json => {
                 if (json.errors) {
-                    dispatch({type: USER_LOGIN_FAILURE, payload: json.errors})
+                    dispatch({type: LOGIN_USER_FAILURE, payload: json.errors})
                 } else {
-                    // const username = jwtDecode(json.token).name;
-                    dispatch({type: USER_LOGIN_SUCCESS, payload: json });
+                    const jwtToken = json.token;
+                    const username = jwtDecode(jwtToken).name;
+
+                    dispatch({type: LOGIN_USER_SUCCESS, payload: {token: jwtToken, username: username}});
+                    dispatch(fetchUserData(jwtToken));
                 }
             })
-            .catch(e => dispatch({type: USER_LOGIN_FAILURE}));
+            .catch(e => dispatch({type: LOGIN_USER_FAILURE}));
     };
 }
 
 export function logUserOut() {
     return function (dispatch) {
-        dispatch({type: USER_LOGOUT_REQUEST});
+        dispatch({type: LOGOUT_USER_REQUEST});
+    }
+}
+
+function fetchUserData(token) {
+    return function (dispatch) {
+        return fetch('http://192.168.0.110:5000/users', {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.errors) {
+                    dispatch({type: FETCH_USER_DATA_FAILURE, payload: json.errors})
+                } else {
+                    dispatch({type: FETCH_USER_DATA_SUCCESS, payload: json});
+                }
+            })
+            .catch(e => dispatch({type: FETCH_USER_DATA_FAILURE}));
     }
 }
