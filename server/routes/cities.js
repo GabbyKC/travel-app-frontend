@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 const cityModel = require("../model/cityModel");
 const { check, validationResult } = require('express-validator');
-require("../model/itineraryModel");
+const itineraryModel = require("../model/itineraryModel");
 
-/*get all cities*/
-router.get("/all", (req, res) => {
+router.get('/', (req, res) => {
     cityModel
         .find({})
         .then(cities => {
@@ -64,10 +63,10 @@ router.get('/:cityId/itineraries',
     (req, res) => {
         let cityRequested = req.params.cityId;
 
-        cityModel.findById(cityRequested)
-            .populate('itineraries')
+        itineraryModel.find(({city: cityRequested}))
+            .populate('city')
             .then(itineraries => {
-                res.send(itineraries)
+                res.send(itineraries);
             })
             .catch(err => console.log(err));
     }

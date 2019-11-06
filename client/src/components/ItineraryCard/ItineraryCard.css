@@ -30,8 +30,9 @@
 }
 
 .itinerary-title {
+    display: flex;
+    justify-content: space-evenly;
     font-size: 35px;
-    text-align: center;
     color: white ;
     text-shadow: 2px 2px 4px #000000;
 }
@@ -65,4 +66,8 @@
     border: 2px solid #9fe2f7;
     background-color: white;
     margin-right: 10px;
+}
+
+.itinerary-icon {
+    font-size: 30px;
 }

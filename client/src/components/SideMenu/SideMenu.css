@@ -35,16 +35,25 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .bm-menu-wrap {
     position: fixed;
     height: 100%;
-    width: 200px;
+    width: 200px!important;
 }
 
 /* General sidebar styles */
 .bm-menu {
-    background: white;
-    padding: 2.5em 1.5em 0;
+    background: beige;
+    padding: 0.5em 1em 0;
     font-size: 1.15em;
+    text-align: right;
 }
 
+.bm-menu button {
+    display: unset!important;
+    margin: 1em 0;
+}
+
+.bm-menu a {
+    color: black;
+}
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
     fill: #373a47;
@@ -52,7 +61,7 @@ Note: Beware of modifying this element as it can break the animations - you shou
 
 /* Wrapper for item list */
 .bm-item-list {
-    color: #b8b7ad;
+    color: black;
     padding: 0.8em 0;
 }
 
@@ -61,7 +70,16 @@ Note: Beware of modifying this element as it can break the animations - you shou
     display: inline-block;
 }
 
+.bm-item:focus {
+    outline: none;
+}
+
 /* Styling of overlay */
 .bm-overlay {
     background: rgba(0, 0, 0, 0.3);
+}
+
+.sidemenu-icon {
+    color: #d4b60a;
+    font-size: 22px;
 }

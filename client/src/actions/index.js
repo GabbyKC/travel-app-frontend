@@ -19,7 +19,7 @@ export function getCities() {
     return function (dispatch) {
         dispatch({type: FETCH_CITIES_REQUEST});
 
-        return fetch('http://192.168.0.110:5000/cities/all')
+        return fetch('http://192.168.0.110:5000/cities')
             .then(response => response.json())
             .then(json => {
                 console.log('payload', json);
@@ -82,9 +82,8 @@ export function logUserIn(data) {
                 if (json.errors) {
                     dispatch({type: USER_LOGIN_FAILURE, payload: json.errors})
                 } else {
-                    const token = json.token;
-                    const username = jwtDecode(json.token).name;
-                    dispatch({type: USER_LOGIN_SUCCESS, payload: {token: token, username: username}});
+                    // const username = jwtDecode(json.token).name;
+                    dispatch({type: USER_LOGIN_SUCCESS, payload: json });
                 }
             })
             .catch(e => dispatch({type: USER_LOGIN_FAILURE}));

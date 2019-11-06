@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faEuroSign, faClock, faLocationArrow, faChevronDown} from "@fortawesome/free-solid-svg-icons";
+import {faEuroSign, faClock, faLocationArrow, faChevronDown, faHeart} from "@fortawesome/free-solid-svg-icons";
 import Activities from "../Activities/Activities";
-
 import './ItineraryCard.css';
+import {connect} from "react-redux";
 
 class ItineraryCard extends Component {
     constructor(props) {
@@ -14,7 +14,7 @@ class ItineraryCard extends Component {
     }
 
     toggleActivities = () => {
-        const { showActivities } = this.state;
+        const {showActivities} = this.state;
         this.setState({
             showActivities: !showActivities
         });
@@ -25,7 +25,18 @@ class ItineraryCard extends Component {
         return (
             <div className='itinerary-card-container'>
                 <div className='itinerary-bg'>
-                    <div className='itinerary-title'>{itinerary.title}</div>
+                    <div className='itinerary-title'>
+                        <div>{itinerary.title}</div>
+                        {
+                            this.props.loggedInUser &&
+                            <div>
+                                <FontAwesomeIcon
+                                    className="itinerary-icon"
+                                    icon={faHeart}
+                                />
+                            </div>
+                        }
+                    </div>
                     <div className='hashtag-container'>
                         {itinerary.hashtags.map((hashtag, index) => {
                             return (
@@ -42,11 +53,12 @@ class ItineraryCard extends Component {
                 <div className='itinerary-content'>
                     <div><FontAwesomeIcon icon={faEuroSign}/> {itinerary.price}</div>
                     <div><FontAwesomeIcon icon={faClock}/> {itinerary.duration.$numberDecimal} Hour(s)</div>
-                    <div><FontAwesomeIcon icon={faLocationArrow}/> {this.props.cityName}</div>
+                    <div><FontAwesomeIcon icon={faLocationArrow}/> {itinerary.city.name}</div>
                 </div>
 
                 <div className='activities-wrapper'>
-                    <button className='activities-button' onClick={this.toggleActivities}>See Details <FontAwesomeIcon icon={faChevronDown}/></button>
+                    <button className='activities-button' onClick={this.toggleActivities}>See Details <FontAwesomeIcon
+                        icon={faChevronDown}/></button>
                     {this.state.showActivities ? <Activities activities={itinerary.activities}/> : null}
                 </div>
             </div>
@@ -54,4 +66,7 @@ class ItineraryCard extends Component {
     }
 }
 
-export default ItineraryCard;
+const mapStateToProps = state => {
+    return {loggedInUser: state.users.loggedInUser};
+};
+export default connect(mapStateToProps, null)(ItineraryCard);

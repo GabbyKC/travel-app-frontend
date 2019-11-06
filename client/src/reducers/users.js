@@ -38,7 +38,7 @@ export function reducer(state = initialState, action) {
         return {
             ...state,
             isLoading: false,
-            loggedInUser: {token: action.payload.token, username: action.payload.username}
+            loggedInUser: {token: action.payload.token, username: action.payload.userName, favoriteItineraries: action.payload.favoriteItineraries }
         }
     }
     if (action.type === USER_LOGIN_FAILURE) {
@@ -48,7 +48,7 @@ export function reducer(state = initialState, action) {
             });
             return {...state, isLoading: false, errorMessages: errors}
         }
-        return {...state, isLoading: false,}
+        return {...state, isLoading: false}
     }
     if (action.type === USER_LOGOUT_REQUEST) {
         return {...state, loggedInUser: null}

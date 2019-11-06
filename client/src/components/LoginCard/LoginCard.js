@@ -8,8 +8,8 @@ class LoginCard extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: '',
-            password: '',
+            email: 'test@test.com',
+            password: 'password',
             error: '',
         };
     }

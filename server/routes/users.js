@@ -36,7 +36,12 @@ router.post('/', [
 
                 newUser.save()
                     .then(user => {
-                        res.status(204).send()
+                        res.send({
+                                id: user._id,
+                                userName: user.name,
+                                email: user.email,
+                            }
+                        )
                     })
                     .catch(err => {
                         res.status(500).send({"errors": [{"msg": `Server error ${err}`}]})
@@ -58,7 +63,14 @@ router.post('/login', [
     }
 
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
-        .populate('favoriteItineraries')
+        .populate({
+            path: 'favoriteItineraries',
+            model: 'itinerary',
+            populate: [{
+                path: 'city',
+                model: 'city'
+            }]
+        })
         .then(existingUser => {
             if (existingUser) {
                 let passwordsMatch = bcrypt.compareSync(password, existingUser.password);
@@ -105,7 +117,7 @@ router.post('/favoriteItineraries/:itineraryId',
             .findOne({_id: req.user.id})
             .then(user => {
                 const itineraryId = req.params.itineraryId;
-                if(!user.favoriteItineraries.includes(itineraryId)) {
+                if (!user.favoriteItineraries.includes(itineraryId)) {
                     user.favoriteItineraries.push(itineraryId);
 
                     user.save()
@@ -133,7 +145,7 @@ router.delete('/favoriteItineraries/:itineraryId',
             .findOne({_id: req.user.id})
             .then(user => {
                 const itineraryId = req.params.itineraryId;
-                if(user.favoriteItineraries.includes(itineraryId)) {
+                if (user.favoriteItineraries.includes(itineraryId)) {
                     user.favoriteItineraries.pop(itineraryId);
 
                     user.save()
@@ -154,7 +166,7 @@ router.delete('/favoriteItineraries/:itineraryId',
     }
 );
 
-// Unused
+// Unused for now
 router.get('/',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {

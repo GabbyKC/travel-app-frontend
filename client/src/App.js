@@ -5,7 +5,7 @@ import Cities from './screen/Cities';
 import Itineraries from "./screen/Itineraries";
 import Login from './components/Login/Login';
 import CreateAccount from "./components/CreateAccount/CreateAccount";
-
+import Favorites from "./components/Favorites/Favorites";
 import './App.css';
 
 export default class App extends Component {
@@ -19,6 +19,7 @@ export default class App extends Component {
             <Route exact path='/cities/:cityId/itineraries' component={Itineraries} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/create' component={CreateAccount} />
+            <Route exact path='/favorites' component={Favorites} />
           </Switch>
         </div>
       </BrowserRouter>
