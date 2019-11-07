@@ -13,7 +13,9 @@ import {
     LOGIN_USER_FAILURE,
     LOGOUT_USER_REQUEST,
     FETCH_USER_DATA_SUCCESS,
-    FETCH_USER_DATA_FAILURE
+    FETCH_USER_DATA_FAILURE,
+    FAVORITE_ITINERARY_FAILURE,
+    FAVORITE_ITINERARY_SUCCESS
 } from '../constants/action-types';
 import jwtDecode from 'jwt-decode';
 
@@ -117,5 +119,26 @@ function fetchUserData(token) {
                 }
             })
             .catch(e => dispatch({type: FETCH_USER_DATA_FAILURE}));
+    }
+}
+
+export function favoriteItinerary(initeraryId, token) {
+    return function (dispatch) {
+        return fetch(`http://192.168.0.110:5000/users/favoriteItineraries/${initeraryId}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.errors) {
+                    dispatch({type: FAVORITE_ITINERARY_FAILURE, payload: json.errors})
+                } else {
+                    dispatch({type: FAVORITE_ITINERARY_SUCCESS, payload: json});
+                }
+            })
+            .catch(e => dispatch({type: FAVORITE_ITINERARY_FAILURE}));
     }
 }

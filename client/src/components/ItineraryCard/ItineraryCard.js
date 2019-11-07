@@ -4,6 +4,7 @@ import {faEuroSign, faClock, faLocationArrow, faChevronDown, faHeart} from "@for
 import Activities from "../Activities/Activities";
 import './ItineraryCard.css';
 import {connect} from "react-redux";
+import {favoriteItinerary} from "../../actions";
 
 class ItineraryCard extends Component {
     constructor(props) {
@@ -20,20 +21,43 @@ class ItineraryCard extends Component {
         });
     };
 
+    favoriteItinerary = itineraryId => {
+        this.props.favoriteItinerary(itineraryId, this.props.loggedInUser.token);
+    };
+
+    unfavoriteItinerary = itineraryId => {
+        console.log('Fav', itineraryId);
+    };
+
     render() {
         const itinerary = this.props.itinerary;
+        const loggedInUser = this.props.loggedInUser;
+        const isFavorited = loggedInUser ? this.props.loggedInUser.favoriteItineraries.find(favoritedItinerary => {
+            return favoritedItinerary._id === itinerary._id
+        }) : false;
         return (
             <div className='itinerary-card-container'>
                 <div className='itinerary-bg'>
                     <div className='itinerary-title'>
-                        <div>{itinerary.title}</div>
+                        <div className='itinerary-title-child'>{itinerary.title}</div>
                         {
                             this.props.loggedInUser &&
-                            <div>
-                                <FontAwesomeIcon
-                                    className="itinerary-icon"
-                                    icon={faHeart}
-                                />
+                            <div className='itinerary-title-favorite'>
+                                {
+                                    isFavorited ? (
+                                        <FontAwesomeIcon
+                                            className="itinerary-icon favorited"
+                                            icon={faHeart}
+                                            onClick={() => this.unfavoriteItinerary(itinerary._id)}
+                                        />
+                                    ) : (
+                                        <FontAwesomeIcon
+                                            className="itinerary-icon"
+                                            icon={faHeart}
+                                            onClick={() => this.favoriteItinerary(itinerary._id)}
+                                        />
+                                    )
+                                }
                             </div>
                         }
                     </div>
@@ -69,4 +93,10 @@ class ItineraryCard extends Component {
 const mapStateToProps = state => {
     return {loggedInUser: state.users.loggedInUser};
 };
-export default connect(mapStateToProps, null)(ItineraryCard);
+
+const mapDispatchToProps = dispatch => ({
+    favoriteItinerary: (itineraryId, token) => dispatch(favoriteItinerary(itineraryId, token)),
+    // unfavoriteItinerary: (itineraryId) => dispatch(unfavoriteItinerary(itineraryId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ItineraryCard);

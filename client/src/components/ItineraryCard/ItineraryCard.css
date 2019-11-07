@@ -31,10 +31,24 @@
 
 .itinerary-title {
     display: flex;
-    justify-content: space-evenly;
+}
+
+.itinerary-title-child {
+    flex-basis: 100%;
+    text-align: center;
+    text-shadow: 2px 2px 4px #000000;
     font-size: 35px;
     color: white ;
-    text-shadow: 2px 2px 4px #000000;
+}
+
+.itinerary-title-favorite {
+    align-self: center;
+    color: white;
+    font-size: 30px;
+}
+
+.favorited {
+    color: red;
 }
 
 .hashtag-container{
@@ -66,8 +80,4 @@
     border: 2px solid #9fe2f7;
     background-color: white;
     margin-right: 10px;
-}
-
-.itinerary-icon {
-    font-size: 30px;
 }
