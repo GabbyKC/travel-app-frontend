@@ -46,14 +46,14 @@ Note: Beware of modifying this element as it can break the animations - you shou
     text-align: right;
 }
 
-.bm-menu button {
-    display: unset!important;
+.bm-menu a:visited {
+    color: black;
+}
+
+.log-out-icon {
     margin: 1em 0;
 }
 
-.bm-menu a {
-    color: black;
-}
 /* Morph shape necessary with bubble or elastic */
 .bm-morph-shape {
     fill: #373a47;
@@ -82,4 +82,9 @@ Note: Beware of modifying this element as it can break the animations - you shou
 .sidemenu-icon {
     color: #d4b60a;
     font-size: 22px;
+}
+
+.hello-user {
+    font-size: 24px;
+    text-align: center;
 }

@@ -15,7 +15,9 @@ import {
     FETCH_USER_DATA_SUCCESS,
     FETCH_USER_DATA_FAILURE,
     FAVORITE_ITINERARY_FAILURE,
-    FAVORITE_ITINERARY_SUCCESS
+    FAVORITE_ITINERARY_SUCCESS,
+    UNFAVORITE_ITINERARY_FAILURE,
+    UNFAVORITE_ITINERARY_SUCCESS
 } from '../constants/action-types';
 import jwtDecode from 'jwt-decode';
 
@@ -140,5 +142,26 @@ export function favoriteItinerary(initeraryId, token) {
                 }
             })
             .catch(e => dispatch({type: FAVORITE_ITINERARY_FAILURE}));
+    }
+}
+
+export function unfavoriteItinerary(initeraryId, token) {
+    return function (dispatch) {
+        return fetch(`http://192.168.0.110:5000/users/favoriteItineraries/${initeraryId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.errors) {
+                    dispatch({type: UNFAVORITE_ITINERARY_FAILURE, payload: json.errors})
+                } else {
+                    dispatch({type: UNFAVORITE_ITINERARY_SUCCESS, payload: json});
+                }
+            })
+            .catch(e => dispatch({type: UNFAVORITE_ITINERARY_FAILURE}));
     }
 }

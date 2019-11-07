@@ -81,3 +81,8 @@
     background-color: white;
     margin-right: 10px;
 }
+
+.no-favorites {
+    font-size: 22px;
+    text-align: center;
+}

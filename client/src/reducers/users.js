@@ -10,6 +10,8 @@ import {
     FETCH_USER_DATA_FAILURE,
     FAVORITE_ITINERARY_SUCCESS,
     FAVORITE_ITINERARY_FAILURE,
+    UNFAVORITE_ITINERARY_SUCCESS,
+    UNFAVORITE_ITINERARY_FAILURE,
 } from '../constants/action-types';
 
 export const initialState = {
@@ -75,6 +77,20 @@ export function reducer(state = initialState, action) {
         }
     }
     if (action.type === FAVORITE_ITINERARY_FAILURE) {
+        if (action.payload) {
+            let errors = action.payload.map(err => {
+                return err.msg;
+            });
+            return {...state, errorMessages: errors}
+        }
+    }
+    if (action.type === UNFAVORITE_ITINERARY_SUCCESS) {
+        return {
+            ...state,
+            loggedInUser: {...state.loggedInUser, favoriteItineraries: action.payload.favoriteItineraries}
+        }
+    }
+    if (action.type === UNFAVORITE_ITINERARY_FAILURE) {
         if (action.payload) {
             let errors = action.payload.map(err => {
                 return err.msg;

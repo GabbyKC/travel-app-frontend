@@ -4,7 +4,7 @@ import {faEuroSign, faClock, faLocationArrow, faChevronDown, faHeart} from "@for
 import Activities from "../Activities/Activities";
 import './ItineraryCard.css';
 import {connect} from "react-redux";
-import {favoriteItinerary} from "../../actions";
+import {favoriteItinerary, unfavoriteItinerary} from "../../actions";
 
 class ItineraryCard extends Component {
     constructor(props) {
@@ -26,7 +26,7 @@ class ItineraryCard extends Component {
     };
 
     unfavoriteItinerary = itineraryId => {
-        console.log('Fav', itineraryId);
+        this.props.unfavoriteItinerary(itineraryId, this.props.loggedInUser.token);
     };
 
     render() {
@@ -96,7 +96,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     favoriteItinerary: (itineraryId, token) => dispatch(favoriteItinerary(itineraryId, token)),
-    // unfavoriteItinerary: (itineraryId) => dispatch(unfavoriteItinerary(itineraryId))
+    unfavoriteItinerary: (itineraryId, token) => dispatch(unfavoriteItinerary(itineraryId, token))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ItineraryCard);

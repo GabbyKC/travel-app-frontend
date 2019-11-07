@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import {connect} from "react-redux";
 import ItineraryCard from "../ItineraryCard/ItineraryCard";
-import {Redirect} from "react-router-dom";
+import {Link, Redirect} from "react-router-dom";
+import AppLogo from "../AppLogo/AppLogo";
+import SideMenu from "../SideMenu/SideMenu";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faChevronLeft} from "@fortawesome/free-solid-svg-icons";
+import Footer from "../Footer/Footer";
 
 class Favorites extends Component {
     render() {
@@ -10,36 +15,45 @@ class Favorites extends Component {
                 <Redirect to='/login'/>
             )
         }
-
+        let body;
         let favoriteItineraries = this.props.loggedInUser.favoriteItineraries;
         if (!favoriteItineraries) {
-            return (
-                <div>
-                    {
-                        this.props.errorMessages.map((errorMessage,index) => {
-                            return (
-                                <div key={index}>{errorMessage}</div>
-                            )
-                        })
-                    }
-                </div>
-            )
-        }
-
-        if (favoriteItineraries.length === 0) {
-            return (
-                <div>No favorites :(</div>
-            )
-        }
-        return (
-            <div>
+            body = <div>
                 {
-                    favoriteItineraries.map(itinerary => {
+                    this.props.errorMessages.map((errorMessage, index) => {
                         return (
-                            <ItineraryCard key={itinerary._id} itinerary={itinerary}/>
+                            <div key={index}>{errorMessage}</div>
                         )
                     })
                 }
+            </div>
+        }
+
+        if (favoriteItineraries.length === 0) {
+            body = (
+                <div className='no-favorites'>You have not favorited any Itineraries yet.</div>
+            )
+        } else {
+            body = favoriteItineraries.map(itinerary => {
+                return (
+                    <ItineraryCard key={itinerary._id} itinerary={itinerary}/>
+                )
+            })
+        }
+        return (
+            <div>
+                <AppLogo/>
+                {
+                    this.props.loggedInUser &&
+                    <SideMenu/>
+                }
+                <div className='back-arrow'>
+                    <Link to={{pathname: '/cities'}}>
+                        <FontAwesomeIcon icon={faChevronLeft}/>
+                    </Link>
+                </div>
+                {body}
+                <Footer/>
             </div>
         );
     }

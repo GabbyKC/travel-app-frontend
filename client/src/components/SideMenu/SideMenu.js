@@ -4,29 +4,30 @@ import './SideMenu.css';
 import {logUserOut} from "../../actions";
 import {connect} from "react-redux";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSmile, faHeart} from "@fortawesome/free-solid-svg-icons";
+import {faHeart, faSignOutAlt} from "@fortawesome/free-solid-svg-icons";
 import {NavLink} from "react-router-dom";
 
 class SideMenu extends Component {
     logUserOut = () => {
         this.props.logUserOut()
     };
+
     render() {
         return (
             <Menu right>
-                <p>
-                    <FontAwesomeIcon
-                        className="sidemenu-icon"
-                        icon={faSmile}
-                    /> Hello {this.props.loggedInUser.username}
-                </p>
+                <p className='hello-user'>Hey {this.props.loggedInUser.username}</p>
                 <NavLink to="/favorites">
                     <FontAwesomeIcon
                         className="sidemenu-icon"
                         icon={faHeart}
                     /> Favorites
                 </NavLink>
-                <button onClick={this.logUserOut}>Log Out</button>
+                <div onClick={this.logUserOut} className='log-out-icon'>
+                    <FontAwesomeIcon
+                        className="sidemenu-icon"
+                        icon={faSignOutAlt}
+                    /> Log Out
+                </div>
             </Menu>
         );
     }
