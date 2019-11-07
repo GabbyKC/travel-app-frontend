@@ -13,10 +13,6 @@ const citySchema = new mongoose.Schema({
     img: {
         type: String
     },
-    // createdAt: {
-    //     type: Date,
-    //     default: Date.now
-    // },
     itineraries: [{type: mongoose.Schema.Types.ObjectId, ref: 'itinerary'}]
 });
 

@@ -169,6 +169,8 @@ export function unfavoriteItinerary(initeraryId, token) {
     }
 }
 
+// used when we have a token (fetched from local storage) and want to set it in the redux store
+// this will then trigger loggedInUser to be set
 export function attemptUserLogin(token) {
     return function (dispatch) {
         const username = jwtDecode(token).name;

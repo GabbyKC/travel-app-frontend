@@ -13,13 +13,12 @@ router.post('/', [
     check('email').isEmail(),
     check('password').isLength({min: 5}).withMessage('Password must be at least 5 characters long')
 ], (req, res) => {
-    const {name, email, password} = req.body;
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()});
     }
 
+    const {name, email, password} = req.body;
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
         .then(result => {
             if (result) {
@@ -55,13 +54,12 @@ router.post('/login', [
     check('email').isEmail(),
     check('password').isLength({min: 5})
 ], (req, res) => {
-    const {email, password} = req.body;
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         return res.status(401).json({"errors": [{"msg": "Invalid credentials"}]});
     }
 
+    const {email, password} = req.body;
     userModel.findOne({email: {"$regex": email, "$options": "i"}})
         .then(existingUser => {
             if (existingUser) {
@@ -75,7 +73,7 @@ router.post('/login', [
                         name: existingUser.name,
                         email: existingUser.email,
                     };
-                    const options = {expiresIn: 2592000};
+                    const options = {expiresIn: 2592000};//30 days from now
                     jwt.sign(
                         payload,
                         secretKey,
@@ -110,7 +108,15 @@ router.post('/favoriteItineraries/:itineraryId',
 
                     user.save()
                         .then(user => {
-                            user.populate('favoriteItineraries').execPopulate().then(user =>
+                            user.populate({
+                                path: 'favoriteItineraries',
+                                model: 'itinerary',
+                                populate: [{
+                                    path: 'city',
+                                    model: 'city'
+                                }]
+                            }).execPopulate()//necessary when populating on save()
+                                .then(user =>
                                 res.json({
                                     id: user._id,
                                     userName: user.name,
@@ -138,7 +144,15 @@ router.delete('/favoriteItineraries/:itineraryId',
 
                     user.save()
                         .then(user => {
-                            user.populate('favoriteItineraries').execPopulate().then(user =>
+                            user.populate({
+                                path: 'favoriteItineraries',
+                                model: 'itinerary',
+                                populate: [{
+                                    path: 'city',
+                                    model: 'city'
+                                }]
+                            }).execPopulate()//necessary when populating on save()
+                                .then(user =>
                                 res.json({
                                     id: user._id,
                                     userName: user.name,
@@ -154,6 +168,7 @@ router.delete('/favoriteItineraries/:itineraryId',
     }
 );
 
+// providing user data (authenticated) IE favorite itineraries
 router.get('/',
     passport.authenticate('jwt', {session: false}),
     (req, res) => {

@@ -18,13 +18,12 @@ router.post('/', [
     check('country').isString().isLength({ min: 1 }),
     check('img').isURL(),
 ],(req, res) => {
-    const {name, country, img} = req.body;
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
         return res.status(422).json({ errors: errors.array() });
     }
 
+    const {name, country, img} = req.body;
     cityModel.find({name: {"$regex": name, "$options": "i"}})
         .then(result => {
             if (result.length > 0) {
@@ -41,13 +40,14 @@ router.post('/', [
                         res.send(city)
                     })
                     .catch(err => {
-                        res.status(500).send("Server error " + err)
+                        res.status(500).send({"errors": [{"msg": `Server error: ${err}`}]})
                     })
             }
         })
         .catch(err => console.log(err));
 });
 
+// not used
 router.get('/:name',
     (req, res) => {
         let cityRequested = req.params.name;

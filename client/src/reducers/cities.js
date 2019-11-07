@@ -13,7 +13,7 @@ export function reducer(state = initialState, action) {
         return { ...state, isLoading: true };
     }
     if (action.type === FETCH_CITIES_FAILURE) {
-        return { ...state, isLoading: false, cities: null };
+        return { ...state, cities: null, isLoading: false };
     }
     return state;
 }
