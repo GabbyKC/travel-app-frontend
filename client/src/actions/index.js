@@ -17,7 +17,8 @@ import {
     FAVORITE_ITINERARY_FAILURE,
     FAVORITE_ITINERARY_SUCCESS,
     UNFAVORITE_ITINERARY_FAILURE,
-    UNFAVORITE_ITINERARY_SUCCESS
+    UNFAVORITE_ITINERARY_SUCCESS,
+    SET_USER_TOKEN
 } from '../constants/action-types';
 import jwtDecode from 'jwt-decode';
 
@@ -90,6 +91,7 @@ export function logUserIn(data) {
                     const jwtToken = json.token;
                     const username = jwtDecode(jwtToken).name;
 
+                    window.localStorage.setItem('token', jwtToken);
                     dispatch({type: LOGIN_USER_SUCCESS, payload: {token: jwtToken, username: username}});
                     dispatch(fetchUserData(jwtToken));
                 }
@@ -100,6 +102,7 @@ export function logUserIn(data) {
 
 export function logUserOut() {
     return function (dispatch) {
+        window.localStorage.removeItem('token');
         dispatch({type: LOGOUT_USER_REQUEST});
     }
 }
@@ -163,5 +166,14 @@ export function unfavoriteItinerary(initeraryId, token) {
                 }
             })
             .catch(e => dispatch({type: UNFAVORITE_ITINERARY_FAILURE}));
+    }
+}
+
+export function attemptUserLogin(token) {
+    return function (dispatch) {
+        const username = jwtDecode(token).name;
+
+        dispatch({type: SET_USER_TOKEN, payload: {token: token, username: username}});
+        dispatch(fetchUserData(token));
     }
 }

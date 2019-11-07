@@ -12,6 +12,7 @@ import {
     FAVORITE_ITINERARY_FAILURE,
     UNFAVORITE_ITINERARY_SUCCESS,
     UNFAVORITE_ITINERARY_FAILURE,
+    SET_USER_TOKEN,
 } from '../constants/action-types';
 
 export const initialState = {
@@ -44,6 +45,12 @@ export function reducer(state = initialState, action) {
         return {
             ...state,
             isLoading: false,
+            loggedInUser: {token: action.payload.token, username: action.payload.username}
+        }
+    }
+    if (action.type === SET_USER_TOKEN) {
+        return {
+            ...state,
             loggedInUser: {token: action.payload.token, username: action.payload.username}
         }
     }
