@@ -22,17 +22,19 @@ import {
 } from '../constants/action-types';
 import jwtDecode from 'jwt-decode';
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+console.log('BACKEND', BACKEND_URL);
+
 export function getCities() {
     return function (dispatch) {
         dispatch({type: FETCH_CITIES_REQUEST});
 
-        return fetch('http://192.168.0.110:5000/cities')
+        return fetch(`${BACKEND_URL}/cities`)
             .then(response => response.json())
             .then(json => {
                 dispatch({type: FETCH_CITIES_SUCCESS, payload: json});
             })
             .catch(e => dispatch({type: FETCH_CITIES_FAILURE}));
-
     };
 }
 
@@ -40,7 +42,7 @@ export function getItineraries(cityId) {
     return function (dispatch) {
         dispatch({type: FETCH_ITINERARIES_REQUEST});
 
-        return fetch(`http://192.168.0.110:5000/cities/${cityId}/itineraries`)
+        return fetch(`${BACKEND_URL}/cities/${cityId}/itineraries`)
             .then(response => response.json())
             .then(json => {
                 dispatch({type: FETCH_ITINERARIES_SUCCESS, payload: json});
@@ -53,7 +55,7 @@ export function createAccount(data) {
     return function (dispatch) {
         dispatch({type: CREATE_USER_REQUEST});
 
-        return fetch('http://192.168.0.110:5000/users', {
+        return fetch(`${BACKEND_URL}/users`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -76,7 +78,7 @@ export function logUserIn(data) {
     return function (dispatch) {
         dispatch({type: LOGIN_USER_REQUEST});
 
-        return fetch('http://192.168.0.110:5000/users/login', {
+        return fetch(`${BACKEND_URL}/users/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -109,7 +111,7 @@ export function logUserOut() {
 
 function fetchUserData(token) {
     return function (dispatch) {
-        return fetch('http://192.168.0.110:5000/users', {
+        return fetch(`${BACKEND_URL}/users`, {
             headers: {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -129,7 +131,7 @@ function fetchUserData(token) {
 
 export function favoriteItinerary(initeraryId, token) {
     return function (dispatch) {
-        return fetch(`http://192.168.0.110:5000/users/favoriteItineraries/${initeraryId}`, {
+        return fetch(`${BACKEND_URL}/users/favoriteItineraries/${initeraryId}`, {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -150,7 +152,7 @@ export function favoriteItinerary(initeraryId, token) {
 
 export function unfavoriteItinerary(initeraryId, token) {
     return function (dispatch) {
-        return fetch(`http://192.168.0.110:5000/users/favoriteItineraries/${initeraryId}`, {
+        return fetch(`${BACKEND_URL}/users/favoriteItineraries/${initeraryId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
