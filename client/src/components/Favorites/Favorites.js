@@ -41,7 +41,7 @@ class Favorites extends Component {
             })
         }
         return (
-            <div>
+            <div className='cities-wrapper'>
                 <AppLogo/>
                 {
                     this.props.loggedInUser &&
