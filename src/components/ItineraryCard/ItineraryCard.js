@@ -9,9 +9,14 @@ import {favoriteItinerary, unfavoriteItinerary} from "../../actions";
 class ItineraryCard extends Component {
     constructor(props) {
         super(props);
+        this.activitiesListRef = React.createRef();
         this.state = {
             showActivities: false
         };
+    }
+
+    componentDidUpdate() {
+        this.activitiesListRef.current.scrollIntoView({behavior: 'smooth'});
     }
 
     toggleActivities = () => {
@@ -80,7 +85,7 @@ class ItineraryCard extends Component {
                     <div><FontAwesomeIcon icon={faLocationArrow}/> {itinerary.city.name}</div>
                 </div>
 
-                <div className='activities-wrapper'>
+                <div className='activities-wrapper' ref={this.activitiesListRef}>
                     <button className='activities-button' onClick={this.toggleActivities}>See Details <FontAwesomeIcon
                         icon={faChevronDown}/></button>
                     {this.state.showActivities ? <Activities activities={itinerary.activities}/> : null}
