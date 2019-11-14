@@ -15,8 +15,10 @@ class ItineraryCard extends Component {
         };
     }
 
-    componentDidUpdate() {
-        this.activitiesListRef.current.scrollIntoView({behavior: 'smooth'});
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.showActivities) {
+            this.activitiesListRef.current.scrollIntoView({behavior: 'smooth'});
+        }
     }
 
     toggleActivities = () => {
